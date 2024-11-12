@@ -2,11 +2,14 @@
 #include "include/raylib.h"
 #include "level.h"
 
-void update() {}
+void update(Level *l) {}
 
-void draw() {
+void draw(Level *l) {
   BeginDrawing();
   ClearBackground((Color){0, 0, 0, 255});
+
+  levelDraw(l);
+
   EndDrawing();
 }
 
@@ -16,9 +19,13 @@ int main(int argc, char *argv[]) {
   InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Pac-Man One-Day Challenge");
   SetTargetFPS(60);
 
+  Level l;
+
+  levelInit(&l);
+
   while (!WindowShouldClose()) {
-    update();
-    draw();
+    update(&l);
+    draw(&l);
     // printf("%d\n", GetFPS());
   }
 

@@ -9,4 +9,6 @@ typedef struct Level {
 
 void levelInit(Level *l);
 
+void levelDraw(Level *l);
+
 #endif

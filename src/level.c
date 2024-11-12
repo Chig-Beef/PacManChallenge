@@ -1,4 +1,5 @@
 #include "config.h"
+#include "include/raylib.h"
 
 typedef struct Level {
   int grid[ROWS][COLS];
@@ -26,5 +27,16 @@ void levelInit(Level *l) {
   // Right wall
   for (int i = 0; i < ROWS; i++) {
     l->grid[i][COLS - 1] = 1;
+  }
+}
+
+void levelDraw(Level *l) {
+  for (int row = 0; row < ROWS; row++) {
+    for (int col = 0; col < COLS; col++) {
+      if (l->grid[row][col] == 1) {
+        DrawRectangle(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE,
+                      WALL_COLOR);
+      }
+    }
   }
 }
