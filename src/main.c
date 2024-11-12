@@ -1,7 +1,6 @@
+#include "config.h"
 #include "include/raylib.h"
-
-const int SCREEN_WIDTH = 720;
-const int SCREEN_HEIGHT = 720;
+#include "level.h"
 
 void update() {}
 
