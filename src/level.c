@@ -55,10 +55,10 @@ void levelInit(Level *l) {
           1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 1,
       },
       {
-          1, 2, 2, 2, 1, 2, 1, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 1, 2, 2, 2, 1,
+          1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1,
       },
       {
-          1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1,
+          1, 2, 2, 2, 1, 2, 1, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 1, 2, 2, 2, 1,
       },
       {
           1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1,
@@ -93,9 +93,14 @@ void levelInit(Level *l) {
 void levelDraw(Level *l) {
   for (int row = 0; row < ROWS; row++) {
     for (int col = 0; col < COLS; col++) {
-      if (l->grid[row][col] == 1) {
+      switch (l->grid[row][col]) {
+      case 1:
         DrawRectangle(col * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE,
                       WALL_COLOR);
+        break;
+      case 2:
+        DrawCircle(col * TILE_SIZE + HALF_TILE_SIZE,
+                   row * TILE_SIZE + HALF_TILE_SIZE, 5, PELLET_COLOR);
       }
     }
   }
