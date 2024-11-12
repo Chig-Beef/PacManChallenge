@@ -5,7 +5,13 @@
 #include "player.h"
 
 void update(Level *l, Player *p, Ghost *blinky, Ghost *pinky, Ghost *inky,
-            Ghost *clyde) {}
+            Ghost *clyde) {
+  playerUpdate(p, l);
+  ghostUpdate(blinky, l, p);
+  ghostUpdate(pinky, l, p);
+  ghostUpdate(inky, l, p);
+  ghostUpdate(clyde, l, p);
+}
 
 void draw(Level *l, Player *p, Ghost *blinky, Ghost *pinky, Ghost *inky,
           Ghost *clyde) {
