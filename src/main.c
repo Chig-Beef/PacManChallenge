@@ -1,14 +1,16 @@
 #include "config.h"
 #include "include/raylib.h"
 #include "level.h"
+#include "player.h"
 
-void update(Level *l) {}
+void update(Level *l, Player *p) {}
 
-void draw(Level *l) {
+void draw(Level *l, Player *p) {
   BeginDrawing();
   ClearBackground((Color){0, 0, 0, 255});
 
   levelDraw(l);
+  playerDraw(p);
 
   EndDrawing();
 }
@@ -20,12 +22,14 @@ int main(int argc, char *argv[]) {
   SetTargetFPS(60);
 
   Level l;
-
   levelInit(&l);
 
+  Player p;
+  playerInit(&p);
+
   while (!WindowShouldClose()) {
-    update(&l);
-    draw(&l);
+    update(&l, &p);
+    draw(&l, &p);
     // printf("%d\n", GetFPS());
   }
 

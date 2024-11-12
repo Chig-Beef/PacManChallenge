@@ -7,5 +7,6 @@
 #define ROWS SCREEN_HEIGHT / TILE_SIZE
 #define COLS SCREEN_WIDTH / TILE_SIZE
 #define WALL_COLOR (Color){0, 0, 255, 255}
+#define PLAYER_COLOR (Color){255, 255, 0, 255}
 
 #endif
