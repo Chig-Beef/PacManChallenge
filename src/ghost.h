@@ -14,7 +14,15 @@ typedef struct Ghost {
 
 void ghostInit(Ghost *g, GhostType type);
 
-void ghostUpdate(Ghost *g, Level *l, Player *p);
+void blinkyUpdate(Ghost *g, Level *l, Player *p);
+
+void pinkyUpdate(Ghost *g, Level *l, Player *p);
+
+void inkyUpdate(Ghost *g, Level *l, Player *p);
+
+void clydeUpdate(Ghost *g, Level *l, Player *p);
+
+void ghostUpdate(Ghost *g, Player *p);
 
 void ghostDraw(Ghost *g);
 

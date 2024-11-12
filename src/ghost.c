@@ -2,6 +2,8 @@
 #include "include/raylib.h"
 #include "level.h"
 #include "player.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct Ghost {
   int x;
@@ -15,7 +17,21 @@ void ghostInit(Ghost *g, GhostType type) {
   g->type = type;
 }
 
-void ghostUpdate(Ghost *g, Level *l, Player *p) {}
+void blinkyUpdate(Ghost *g, Level *l, Player *p) {}
+
+void pinkyUpdate(Ghost *g, Level *l, Player *p) {}
+
+void inkyUpdate(Ghost *g, Level *l, Player *p) {}
+
+void clydeUpdate(Ghost *g, Level *l, Player *p) {}
+
+void ghostUpdate(Ghost *g, Player *p) {
+  if (p->x / TILE_SIZE == g->x / TILE_SIZE &&
+      p->y / TILE_SIZE == g->y / TILE_SIZE) {
+    // Lost the game!
+    exit(0);
+  }
+}
 
 void ghostDraw(Ghost *g) {
   switch (g->type) {

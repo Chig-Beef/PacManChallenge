@@ -7,10 +7,16 @@
 void update(Level *l, Player *p, Ghost *blinky, Ghost *pinky, Ghost *inky,
             Ghost *clyde) {
   playerUpdate(p, l);
-  ghostUpdate(blinky, l, p);
-  ghostUpdate(pinky, l, p);
-  ghostUpdate(inky, l, p);
-  ghostUpdate(clyde, l, p);
+
+  blinkyUpdate(blinky, l, p);
+  pinkyUpdate(pinky, l, p);
+  inkyUpdate(inky, l, p);
+  clydeUpdate(clyde, l, p);
+
+  ghostUpdate(blinky, p);
+  ghostUpdate(pinky, p);
+  ghostUpdate(inky, p);
+  ghostUpdate(clyde, p);
 }
 
 void draw(Level *l, Player *p, Ghost *blinky, Ghost *pinky, Ghost *inky,
