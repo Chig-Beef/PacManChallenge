@@ -10,7 +10,7 @@ void update(Level *l, Player *p, Ghost *blinky, Ghost *pinky, Ghost *inky,
 
   blinkyUpdate(blinky, l, p);
   pinkyUpdate(pinky, l, p);
-  inkyUpdate(inky, l, p);
+  inkyUpdate(inky, l, p, blinky);
   clydeUpdate(clyde, l, p);
 
   ghostUpdate(blinky, p);

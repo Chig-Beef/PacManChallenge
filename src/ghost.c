@@ -192,7 +192,50 @@ void pinkyUpdate(Ghost *g, Level *l, Player *p) {
   trackToTile(g, l, tx, ty);
 }
 
-void inkyUpdate(Ghost *g, Level *l, Player *p) {}
+void inkyUpdate(Ghost *g, Level *l, Player *p, Ghost *blinky) {
+  // Still moving to the next position
+  if (g->x % TILE_SIZE != 0 || g->y % TILE_SIZE != 0) {
+    ghostMoveInDirection(g);
+    return;
+  }
+
+  // Inky's target is a doubled vector from
+  // 2 tiles in front of the player and
+  // Blinky's position
+  int tx = p->x;
+  int ty = p->y;
+
+  // Get the position 2 tiles in front
+  switch (p->lastDir) {
+  case LEFT:
+    tx -= TILE_SIZE << 1;
+    break;
+  case RIGHT:
+    tx += TILE_SIZE << 1;
+    break;
+  case UP:
+    ty -= TILE_SIZE << 1;
+    break;
+  case DOWN:
+    ty += TILE_SIZE << 1;
+    break;
+  }
+
+  // Get the distance from this position
+  // and Blinky
+  int dx = tx - blinky->x;
+  int dy = ty - blinky->y;
+
+  // Double it
+  dx *= 2;
+  dy *= 2;
+
+  // Calculate the final position
+  tx = blinky->x + dx;
+  ty = blinky->y + dy;
+
+  trackToTile(g, l, tx, ty);
+}
 
 void clydeUpdate(Ghost *g, Level *l, Player *p) {
   // Still moving to the next position

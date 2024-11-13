@@ -19,7 +19,7 @@ void blinkyUpdate(Ghost *g, Level *l, Player *p);
 
 void pinkyUpdate(Ghost *g, Level *l, Player *p);
 
-void inkyUpdate(Ghost *g, Level *l, Player *p);
+void inkyUpdate(Ghost *g, Level *l, Player *p, Ghost *blinky);
 
 void clydeUpdate(Ghost *g, Level *l, Player *p);
 
