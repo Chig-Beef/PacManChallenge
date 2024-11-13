@@ -194,7 +194,30 @@ void pinkyUpdate(Ghost *g, Level *l, Player *p) {
 
 void inkyUpdate(Ghost *g, Level *l, Player *p) {}
 
-void clydeUpdate(Ghost *g, Level *l, Player *p) {}
+void clydeUpdate(Ghost *g, Level *l, Player *p) {
+  // Still moving to the next position
+  if (g->x % TILE_SIZE != 0 || g->y % TILE_SIZE != 0) {
+    ghostMoveInDirection(g);
+    return;
+  }
+
+  // Clyde's target is the player's
+  // position if they're within 8 tiles
+  int tx = p->x;
+  int ty = p->y;
+
+  // Otherwise, scatter
+  int dx = g->x - tx;
+  int dy = g->y - ty;
+  double dis = sqrt(dx * dx + dy * dy);
+  if (dis < 8 * TILE_SIZE) {
+    // Out of bounds scatter position
+    tx = -TILE_SIZE;
+    ty = (ROWS + 2) * TILE_SIZE;
+  }
+
+  trackToTile(g, l, tx, ty);
+}
 
 void ghostUpdate(Ghost *g, Player *p) {
   if (p->x / TILE_SIZE == g->x / TILE_SIZE &&
