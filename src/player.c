@@ -38,6 +38,13 @@ void playerUpdate(Player *p, Level *l) {
     return;
   }
 
+  // Eat the pellet
+  int row = p->y / TILE_SIZE;
+  int col = p->x / TILE_SIZE;
+  if (l->grid[row][col] == 2) {
+    l->grid[row][col] = 0;
+  }
+
   // For each key, check the tile to move
   // into is free, then start moving in
   // that direction
@@ -49,7 +56,8 @@ void playerUpdate(Player *p, Level *l) {
         p->lastDir = LEFT;
       }
     } else {
-      // TODO: Moving here should wrap around
+      p->x = SCREEN_WIDTH - TILE_SIZE;
+      p->lastDir = LEFT;
     }
     return;
   }
@@ -61,7 +69,8 @@ void playerUpdate(Player *p, Level *l) {
         p->lastDir = RIGHT;
       }
     } else {
-      // TODO: Moving here should wrap around
+      p->x = 0;
+      p->lastDir = RIGHT;
     }
     return;
   }
