@@ -16,6 +16,23 @@ void ghostInit(Ghost *g, GhostType type) {
   g->x = (9 + type) * TILE_SIZE;
   g->y = 11 * TILE_SIZE;
   g->type = type;
+
+  // Make sure the can move out of the
+  // containment area
+  switch (type) {
+  case BLINKY:
+    g->lastDir = RIGHT;
+    break;
+  case PINKY:
+    g->lastDir = RIGHT;
+    break;
+  case INKY:
+    g->lastDir = UP;
+    break;
+  case CLYDE:
+    g->lastDir = LEFT;
+    break;
+  }
 }
 
 void ghostMoveInDirection(Ghost *g) {
@@ -118,8 +135,10 @@ void trackToTile(Ghost *g, Level *l, int tx, int ty) {
     }
   }
 
-  // This shouldn't occurr
+  // This will occur if they get stuck in
+  // the containment area
   if (bestDirection == (dir)-1) {
+    g->lastDir++;
     return;
   }
 
@@ -143,7 +162,35 @@ void blinkyUpdate(Ghost *g, Level *l, Player *p) {
   trackToTile(g, l, tx, ty);
 }
 
-void pinkyUpdate(Ghost *g, Level *l, Player *p) {}
+void pinkyUpdate(Ghost *g, Level *l, Player *p) {
+  // Still moving to the next position
+  if (g->x % TILE_SIZE != 0 || g->y % TILE_SIZE != 0) {
+    ghostMoveInDirection(g);
+    return;
+  }
+
+  // Pinky's target tile is 4 tiles forward
+  // in the direction the player is moving
+  int tx = p->x;
+  int ty = p->y;
+
+  switch (p->lastDir) {
+  case LEFT:
+    tx -= TILE_SIZE << 2;
+    break;
+  case RIGHT:
+    tx += TILE_SIZE << 2;
+    break;
+  case UP:
+    ty -= TILE_SIZE << 2;
+    break;
+  case DOWN:
+    ty += TILE_SIZE << 2;
+    break;
+  }
+
+  trackToTile(g, l, tx, ty);
+}
 
 void inkyUpdate(Ghost *g, Level *l, Player *p) {}
 

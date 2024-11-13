@@ -10,6 +10,7 @@ typedef struct Ghost {
   int x;
   int y;
   GhostType type;
+  dir lastDir;
 } Ghost;
 
 void ghostInit(Ghost *g, GhostType type);

@@ -8,6 +8,7 @@
 typedef struct Player {
   int x;
   int y;
+  dir lastDir;
 } Player;
 
 void playerInit(Player *p);
