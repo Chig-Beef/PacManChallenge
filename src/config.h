@@ -23,4 +23,11 @@ typedef unsigned char GhostType;
 #define INKY_COLOR (Color){128, 128, 255, 255}
 #define CLYDE_COLOR (Color){255, 128, 0, 255}
 
+typedef unsigned char dir;
+
+#define LEFT (dir)0
+#define RIGHT (dir)1
+#define UP (dir)2
+#define DOWN (dir)3
+
 #endif

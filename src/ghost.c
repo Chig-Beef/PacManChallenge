@@ -2,13 +2,14 @@
 #include "include/raylib.h"
 #include "level.h"
 #include "player.h"
-#include <stdio.h>
+#include <math.h>
 #include <stdlib.h>
 
 typedef struct Ghost {
   int x;
   int y;
   GhostType type;
+  dir lastDir;
 } Ghost;
 
 void ghostInit(Ghost *g, GhostType type) {
@@ -17,7 +18,130 @@ void ghostInit(Ghost *g, GhostType type) {
   g->type = type;
 }
 
-void blinkyUpdate(Ghost *g, Level *l, Player *p) {}
+void ghostMoveInDirection(Ghost *g) {
+  switch (g->lastDir) {
+  case LEFT:
+    g->x--;
+    break;
+  case RIGHT:
+    g->x++;
+    break;
+  case UP:
+    g->y--;
+    break;
+  case DOWN:
+    g->y++;
+    break;
+  }
+}
+
+void trackToTile(Ghost *g, Level *l, int tx, int ty) {
+  bool validDirs[4] = {
+      true,
+      true,
+      true,
+      true,
+  };
+
+  // Can't move backwards
+  switch (g->lastDir) {
+  case LEFT:
+    validDirs[RIGHT] = false;
+    break;
+  case RIGHT:
+    validDirs[LEFT] = false;
+    break;
+  case UP:
+    validDirs[DOWN] = false;
+    break;
+  case DOWN:
+    validDirs[UP] = false;
+    break;
+  }
+
+  // Don't move into a wall
+  if (g->x / TILE_SIZE > 0) {
+    if (l->grid[g->y / TILE_SIZE][g->x / TILE_SIZE - 1] == 1) {
+      validDirs[LEFT] = false;
+    }
+  } else {
+    // TODO: Moving here should wrap around
+    validDirs[LEFT] = false;
+  }
+
+  if (g->x / TILE_SIZE < COLS - 1) {
+    if (l->grid[g->y / TILE_SIZE][g->x / TILE_SIZE + 1] == 1) {
+      validDirs[RIGHT] = false;
+    }
+  } else {
+    // TODO: Moving here should wrap around
+    validDirs[RIGHT] = false;
+  }
+
+  if (g->y / TILE_SIZE > 0) {
+    if (l->grid[g->y / TILE_SIZE - 1][g->x / TILE_SIZE] == 1) {
+      validDirs[UP] = false;
+    }
+  }
+
+  if (g->y / TILE_SIZE < ROWS - 1) {
+    if (l->grid[g->y / TILE_SIZE + 1][g->x / TILE_SIZE] == 1) {
+      validDirs[DOWN] = false;
+    }
+  }
+
+  // Now try to move towards target tile
+  int nextPositions[4][2] = {
+      {g->x - TILE_SIZE, g->y},
+      {g->x + TILE_SIZE, g->y},
+      {g->x, g->y - TILE_SIZE},
+      {g->x, g->y + TILE_SIZE},
+  };
+
+  dir bestDirection = (dir)-1;
+  int bestDistance = -1;
+  int dis, dx, dy;
+
+  // Find the best direction to move
+  for (int i = 0; i < 4; i++) {
+    if (!validDirs[i]) {
+      continue;
+    }
+
+    dx = nextPositions[i][0] - tx;
+    dy = nextPositions[i][1] - ty;
+    dis = sqrt((double)(dx * dx + dy * dy));
+
+    if (dis < bestDistance || bestDistance == -1) {
+      bestDistance = dis;
+      bestDirection = (dir)i;
+    }
+  }
+
+  // This shouldn't occurr
+  if (bestDirection == (dir)-1) {
+    return;
+  }
+
+  // Move in the direction
+  g->lastDir = bestDirection;
+  ghostMoveInDirection(g);
+}
+
+void blinkyUpdate(Ghost *g, Level *l, Player *p) {
+  // Still moving to the next position
+  if (g->x % TILE_SIZE != 0 || g->y % TILE_SIZE != 0) {
+    ghostMoveInDirection(g);
+    return;
+  }
+
+  // Blinky's target tile is always the tile
+  // that the player is currently on
+  int tx = p->x;
+  int ty = p->y;
+
+  trackToTile(g, l, tx, ty);
+}
 
 void pinkyUpdate(Ghost *g, Level *l, Player *p) {}
 

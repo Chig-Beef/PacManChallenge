@@ -2,13 +2,6 @@
 #include "include/raylib.h"
 #include "level.h"
 
-typedef unsigned char dir;
-
-#define LEFT (dir)0
-#define RIGHT (dir)1
-#define UP (dir)2
-#define DOWN (dir)3
-
 typedef struct Player {
   int x;
   int y;
